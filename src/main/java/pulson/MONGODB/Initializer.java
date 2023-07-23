@@ -1,24 +1,28 @@
 package pulson.MONGODB;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.aggregation.MatchOperation;
-import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import pulson.MONGODB.user.*;
+import pulson.MONGODB.user.Address;
+import pulson.MONGODB.user.GenderEnum;
+import pulson.MONGODB.user.User;
+import pulson.MONGODB.user.UserRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Service
+@Slf4j
 public class Initializer {
+
+    private static final Logger logger = LoggerFactory.getLogger(Initializer.class);
 
     private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
@@ -29,7 +33,12 @@ public class Initializer {
         this.mongoTemplate = mongoTemplate;
         this.userRepository.deleteAll();
 
-        testSpringMongoDB();
+        this.testSpringMongoDB();
+        this.runQueries();
+    }
+
+    private void runQueries() {
+        logger.warn(this.userRepository.findByFirstName("Michał").toString());
     }
 
 
